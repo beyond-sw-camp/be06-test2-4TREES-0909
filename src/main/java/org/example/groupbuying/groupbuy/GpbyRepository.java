@@ -19,6 +19,7 @@ public class GpbyRepository {
 
     public int updateStatus(int gpbyIdx) {
         return jdbcTemplate.update("UPDATE GROUP_BUY SET gpby_status = '진행' WHERE gpby_idx = ?", gpbyIdx);
+    }
 
     public int save(GpbyRegistReq gpbyRegistReq) {
         return jdbcTemplate.update("INSERT INTO GROUP_BUY " +

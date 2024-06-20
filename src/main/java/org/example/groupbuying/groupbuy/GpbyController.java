@@ -30,6 +30,7 @@ public class GpbyController {
     @RequestMapping(method = RequestMethod.GET, value = "/start")
     public String start(int gpbyIdx) {
         return gpbyService.start(gpbyIdx);
+    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/regist")
     public ResponseEntity<GpbyRegistRes> regist(@RequestBody GpbyRegistReq gpbyRegistReq) {
