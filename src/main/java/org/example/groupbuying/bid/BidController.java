@@ -1,14 +1,12 @@
 package org.example.groupbuying.bid;
 
+import org.example.groupbuying.bid.model.BidIdxReq;
 import org.example.groupbuying.bid.model.BidRegistReq;
 import org.example.groupbuying.bid.model.BidSelectReq;
 import org.example.groupbuying.bid.model.BidWaitRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,6 +37,12 @@ public class BidController {
     public ResponseEntity<List<BidWaitRes>> BidWaitList(){
         List<BidWaitRes> bidWaitResList = bidService.bidWaitResList();
         return ResponseEntity.ok(bidWaitResList);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value="/cancel")
+    public ResponseEntity<String> BidCancel(@RequestBody BidIdxReq bidIdxReq){
+        String result = bidService.bidCancel(bidIdxReq);
+        return ResponseEntity.ok(result);
     }
 
 }

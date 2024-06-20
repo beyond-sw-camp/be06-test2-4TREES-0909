@@ -1,5 +1,6 @@
 package org.example.groupbuying.bid;
 
+import org.example.groupbuying.bid.model.BidIdxReq;
 import org.example.groupbuying.bid.model.BidRegistReq;
 import org.example.groupbuying.bid.model.BidSelectReq;
 import org.example.groupbuying.bid.model.BidWaitRes;
@@ -41,6 +42,13 @@ public class BidService {
         return bidWaitResList;
     }
 
+    public String bidCancel(BidIdxReq bidIdxReq){
+        Boolean bidCancelSuccess = bidRepository.bidCancel(bidIdxReq);
+        if (bidCancelSuccess){
+            return "삭제 성공";
+        }
+        return "삭제 실패";
+    }
 
 
 }
