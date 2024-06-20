@@ -1,5 +1,7 @@
 package org.example.groupbuying.user.controller;
 
+import org.example.groupbuying.user.model.UserBasicLoginReq;
+import org.example.groupbuying.user.model.UserBasicLoginRes;
 import org.example.groupbuying.user.model.UserBasicSignupReq;
 import org.example.groupbuying.user.service.UserBasicService;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +20,20 @@ public class UserBasicController {
         this.userBasicService = userBasicService;
     }
 
-    @PostMapping(value = "signup")
+    @PostMapping(value = "/signup")
     public ResponseEntity<String> signup(
             @RequestBody UserBasicSignupReq req
     ){
         String res = userBasicService.signup(req);
+
+        return ResponseEntity.ok(res);
+    }
+
+    @PostMapping(value = "/login")
+    public ResponseEntity<UserBasicLoginRes> login(
+            @RequestBody UserBasicLoginReq req
+    ){
+        UserBasicLoginRes res = userBasicService.login(req);
 
         return ResponseEntity.ok(res);
     }
