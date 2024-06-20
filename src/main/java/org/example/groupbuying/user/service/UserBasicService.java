@@ -1,5 +1,7 @@
 package org.example.groupbuying.user.service;
 
+import org.example.groupbuying.user.model.UserBasicLoginReq;
+import org.example.groupbuying.user.model.UserBasicLoginRes;
 import org.example.groupbuying.user.model.UserBasicSignupReq;
 import org.example.groupbuying.user.repository.UserBasicRepository;
 import org.springframework.stereotype.Service;
@@ -20,5 +22,10 @@ public class UserBasicService {
         }else {
             return "회원 가입 실패";
         }
+    }
+
+    public UserBasicLoginRes login(UserBasicLoginReq req) {
+        UserBasicLoginRes res = userBasicRepository.findByEmailAndPassword(req);
+        return res;
     }
 }
