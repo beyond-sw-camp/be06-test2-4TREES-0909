@@ -2,9 +2,12 @@ package org.example.groupbuying.bid;
 
 import org.example.groupbuying.bid.model.BidRegistReq;
 import org.example.groupbuying.bid.model.BidSelectReq;
+import org.example.groupbuying.bid.model.BidWaitRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class BidRepository {
@@ -27,5 +30,15 @@ public class BidRepository {
         int gpbyStatusUpdateSuccess = jdbcTemplate.update(gpbyStatusUpdateSQL, bidSelectReq.getGpbyIdx());
         int bidSelectUpdateSuccess = jdbcTemplate.update(bidSelectUpdateSQL, bidSelectReq.getBidIdx());
         return gpbyStatusUpdateSuccess > 0 && bidSelectUpdateSuccess > 0;
+    }
+
+    public List<BidWaitRes> bidWaitList(){
+        String waitListSQL = "SELECT * FROM GROUP_BUY WHERE gpby_status='입찰 대기'";
+        List<BidWaitRes> waitResList = jdbcTemplate.query(waitListSQL,
+                (rs, rowNum) -> new BidWaitRes(rs.getInt("gpby_idx"), rs.getString("gpby_title"),
+                        rs.getInt("gpby_quantity"))
+        );
+
+        return waitResList;
     }
 }
