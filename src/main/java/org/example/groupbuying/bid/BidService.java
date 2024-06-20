@@ -1,6 +1,7 @@
 package org.example.groupbuying.bid;
 
 import org.example.groupbuying.bid.model.BidRegistReq;
+import org.example.groupbuying.bid.model.BidSelectReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,15 @@ public class BidService {
             return "입찰 등록에 성공하였습니다.";
         } else {
             return "입찰 등록에 실패하였습니다.";
+        }
+    }
+
+    public String bidSelect(BidSelectReq bidSelectReq) {
+        Boolean bidSelectSuccess = bidRepository.bidSelect(bidSelectReq);
+        if (bidSelectSuccess){
+            return "입찰 선택이 완료되었습니다.";
+        } else {
+            return "입찰 선택에 실패하였습니다.";
         }
     }
 

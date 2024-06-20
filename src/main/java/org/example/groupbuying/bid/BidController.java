@@ -1,6 +1,7 @@
 package org.example.groupbuying.bid;
 
 import org.example.groupbuying.bid.model.BidRegistReq;
+import org.example.groupbuying.bid.model.BidSelectReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,12 @@ public class BidController {
     @RequestMapping(method = RequestMethod.POST, value="/regist")
     public ResponseEntity<String> BidRegist(@RequestBody BidRegistReq bidRegistReq){
         String result = bidService.bidRegist(bidRegistReq);
+        return ResponseEntity.ok(result);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value="/select")
+    public ResponseEntity<String> BidRegist(@RequestBody BidSelectReq bidSelectReq){
+        String result = bidService.bidSelect(bidSelectReq);
         return ResponseEntity.ok(result);
     }
 
