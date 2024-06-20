@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
 public class GpbyRepository {
     private JdbcTemplate jdbcTemplate;
@@ -14,6 +15,10 @@ public class GpbyRepository {
     public GpbyRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
+
+    public int updateStatus(int gpbyIdx) {
+        return jdbcTemplate.update("UPDATE GROUP_BUY SET gpby_status = '진행' WHERE gpby_idx = ?", gpbyIdx);
 
     public int save(GpbyRegistReq gpbyRegistReq) {
         return jdbcTemplate.update("INSERT INTO GROUP_BUY " +
@@ -37,5 +42,6 @@ public class GpbyRepository {
                 }
         );
         return gpbyListRes;
+
     }
 }
