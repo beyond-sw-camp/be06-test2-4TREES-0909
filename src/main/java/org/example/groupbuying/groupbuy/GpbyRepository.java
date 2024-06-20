@@ -2,9 +2,14 @@ package org.example.groupbuying.groupbuy;
 
 import org.example.groupbuying.groupbuy.model.GpbyListRes;
 import org.example.groupbuying.groupbuy.model.GpbyRegistReq;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 @Repository
@@ -16,16 +21,30 @@ public class GpbyRepository {
     }
 
     public int save(GpbyRegistReq gpbyRegistReq) {
-        return jdbcTemplate.update("INSERT INTO GROUP_BUY " +
-                        "(user_idx, category_idx, gpby_title, gpby_content,gpby_quantity, gpby_bid_enddate) " +
-                        "VALUES (?, ?, ?,?,?,DATE_ADD(CURRENT_TIMESTAMP, INTERVAL ? DAY))",
-                1,
-                gpbyRegistReq.getCategoryIdx(),
-                gpbyRegistReq.getGpbyTitle(),
-                gpbyRegistReq.getGpbyContent(),
-                gpbyRegistReq.getGpbyQuantity(),
-                gpbyRegistReq.getGpbyEnddate()
-        );
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        String sql = "INSERT INTO GROUP_BUY " +
+                "(user_idx, category_idx, gpby_title, gpby_content, gpby_quantity, gpby_bid_enddate) " +
+                "VALUES (?, ?, ?, ?, ?, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL ? DAY))";
+
+        try {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                ps.setInt(1, 1);
+                ps.setInt(2, gpbyRegistReq.getCategoryIdx());
+                ps.setString(3, gpbyRegistReq.getGpbyTitle());
+                ps.setString(4, gpbyRegistReq.getGpbyContent());
+                ps.setInt(5, gpbyRegistReq.getGpbyQuantity());
+                ps.setInt(6, gpbyRegistReq.getGpbyEnddate());
+                return ps;
+            }, keyHolder);
+
+            return keyHolder.getKey().intValue(); // This will return the generated gpbyIdx value
+        } catch (DataAccessException e) {
+            // Log the exception (optional)
+            e.printStackTrace();
+            return -1; // Indicate failure with a specific value
+        }
     }
 
     public List<GpbyListRes> findAll() {

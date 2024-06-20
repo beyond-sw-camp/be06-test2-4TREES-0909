@@ -17,7 +17,7 @@ public class GpbyService {
 
     public GpbyRegistRes regist(GpbyRegistReq gpbyRegistReq) {
         int result = gpbyRepository.save(gpbyRegistReq);
-        if(result > 0) return new GpbyRegistRes(gpbyRegistReq.getGpbyTitle() + " 저장됨");
+        if(result > 0) return new GpbyRegistRes("공구 idx: " + result + " 저장됨");
         else return new GpbyRegistRes(gpbyRegistReq.getGpbyTitle() + " 저장안됨");
     }
 
