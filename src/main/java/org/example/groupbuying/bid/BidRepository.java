@@ -1,5 +1,6 @@
 package org.example.groupbuying.bid;
 
+import org.example.groupbuying.bid.model.BidIdxReq;
 import org.example.groupbuying.bid.model.BidRegistReq;
 import org.example.groupbuying.bid.model.BidSelectReq;
 import org.example.groupbuying.bid.model.BidWaitRes;
@@ -40,5 +41,11 @@ public class BidRepository {
         );
 
         return waitResList;
+    }
+
+    public Boolean bidCancel(BidIdxReq bidIdxReq) {
+        String bidCancelSQL = "UPDATE BID SET bid_status='삭제' WHERE bid_idx = ?";
+        int bidCancelSuccess = jdbcTemplate.update(bidCancelSQL, bidIdxReq.getBidIdx());
+        return bidCancelSuccess > 0;
     }
 }
